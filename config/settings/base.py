@@ -61,7 +61,7 @@ CORS_ALLOW_HEADERS = (
 )
 
 LOCAL_APPS = [
-    # Add local apps
+    'apps.user.apps.UserConfig',
 ]
 
 DJANGO_APPS = [
@@ -147,7 +147,7 @@ REST_FRAMEWORK = {
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
 }
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
 TIME_ZONE = 'Asia/Seoul'
 
