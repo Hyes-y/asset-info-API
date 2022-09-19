@@ -1,7 +1,5 @@
 # django rest api
-from rest_framework import viewsets, mixins
-from rest_framework.decorators import action
-from rest_framework.response import Response
+from rest_framework import viewsets
 # django modules
 from django.db.models import Sum, F
 # local modules
@@ -11,9 +9,9 @@ from .serializers import AccountSerializer, AccountDetailSerializer
 
 
 class AccountViewSet(viewsets.ReadOnlyModelViewSet):
-    """ 계좌 내역 조회 Viewset """
+    """ 투자 내역 조회 Viewset """
     def get_queryset(self):
-        user = User.objects.get(id=2)
+        user = self.request.user
         account = Account.objects.filter(user=user).annotate(
             total_assets=Sum(F('asset__price') * F('asset__count'))
         )
