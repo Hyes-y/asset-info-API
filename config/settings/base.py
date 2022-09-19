@@ -62,6 +62,7 @@ CORS_ALLOW_HEADERS = (
 
 LOCAL_APPS = [
     'apps.user.apps.UserConfig',
+    'apps.account.apps.AccountConfig',
 ]
 
 DJANGO_APPS = [
@@ -111,7 +112,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-AUTH_USER_MODEL = 'apps.user.User'
+AUTH_USER_MODEL = 'user.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
