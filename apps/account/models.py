@@ -31,7 +31,7 @@ class AssetInfo(models.Model):
 
 
 class Asset(models.Model):
-    account = models.ForeignKey(Account, on_delete=models.CASCADE, db_column='account_id', related_name='account')
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, db_column='account_id', related_name='asset')
     info = models.ForeignKey(AssetInfo, on_delete=models.DO_NOTHING, db_column='asset_info', related_name='info')
     price = models.DecimalField(verbose_name='현재가', max_digits=20, decimal_places=2)
     count = models.PositiveIntegerField(verbose_name='수량')
