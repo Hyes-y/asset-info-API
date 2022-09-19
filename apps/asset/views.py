@@ -12,7 +12,8 @@ from .serializers import AssetSerializer
 class AssetViewSet(viewsets.ReadOnlyModelViewSet):
     """ 보유 종목 조회 Viewset """
     def get_queryset(self):
-        account = Account.objects.get(id=1)
+        account = self.request.user.account.all()[0].id
+        print(account)
         assets = Asset.objects.filter(account=account).annotate(
             total=F('price') * F('count')
         )
