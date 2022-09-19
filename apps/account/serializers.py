@@ -1,12 +1,11 @@
-from django.db.models import Sum, F
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from rest_framework import serializers
-from .models import Account, Asset
+from .models import Account
 
 
 class AccountSerializer(ModelSerializer):
     total_assets = serializers.DecimalField(max_digits=20, decimal_places=2, read_only=True)
-    """ 투자 시리얼라이저 """
+    """ 투자 정보 조회 시리얼라이저 """
     class Meta:
         model = Account
         fields = ('id', 'name', 'stock_firm', 'number', 'total_assets', 'user')

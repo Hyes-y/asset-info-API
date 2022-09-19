@@ -5,7 +5,8 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 
 from apps.user.models import User
-from apps.account.models import Account, AssetInfo, Asset
+from apps.account.models import Account
+from apps.asset.models import AssetInfo, Asset
 
 
 class Command(BaseCommand):
@@ -22,7 +23,7 @@ class Command(BaseCommand):
         asset_info_set = pd.merge(asset_info, basic_info, on='계좌번호', how='inner')
 
         AssetInfo.objects.bulk_create([
-            AssetInfo(isin=row['ISIN'], name=row['종목명'], group=['자산그룹']) \
+            AssetInfo(isin=row['ISIN'], name=row['종목명'], group=row['자산그룹']) \
             for i, row in group_info.iterrows()
         ])
 
@@ -35,6 +36,7 @@ class Command(BaseCommand):
                     'password': make_password('test1234')
                 }
             )
+            print(f"user created: {created}")
 
             account, created = Account.objects.get_or_create(
                 number=row['계좌번호'],
@@ -45,6 +47,8 @@ class Command(BaseCommand):
                     'principal': row['투자원금'],
                 }
             )
+
+            print(f"account created: {created}")
 
             info = AssetInfo.objects.get(isin=row['ISIN'])
             Asset.objects.get_or_create(
