@@ -61,6 +61,7 @@ CORS_ALLOW_HEADERS = (
 )
 
 LOCAL_APPS = [
+    'jobs.apps.JobsConfig',
     'apps.user.apps.UserConfig',
     'apps.account.apps.AccountConfig',
     'apps.asset.apps.AssetConfig',
