@@ -64,6 +64,7 @@ LOCAL_APPS = [
     'apps.user.apps.UserConfig',
     'apps.account.apps.AccountConfig',
     'apps.asset.apps.AssetConfig',
+    'apps.transaction.apps.TransactionConfig',
 ]
 
 DJANGO_APPS = [
