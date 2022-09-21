@@ -1,8 +1,8 @@
-import pytz
+from django.conf.global_settings import TIME_ZONE
+from .jobs import Schedule
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
-from .jobs import Schedule
-from django.conf.global_settings import TIME_ZONE
+import pytz
 
 
 def start():

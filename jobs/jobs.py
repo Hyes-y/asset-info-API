@@ -1,13 +1,11 @@
-import pandas as pd
-import uuid
-from datetime import datetime
-from django.conf import settings
 from django.contrib.auth.hashers import make_password
 from django.db import transaction
-
 from apps.user.models import User
 from apps.account.models import Account
 from apps.asset.models import AssetInfo, Asset
+from datetime import datetime
+import pandas as pd
+import uuid
 
 
 def update_or_create_object(model, data):

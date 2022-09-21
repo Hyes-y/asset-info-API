@@ -1,6 +1,5 @@
-# django rest api
 from rest_framework import viewsets, mixins
-# local modules
+from rest_framework.permissions import IsAuthenticated
 from .models import Transaction, TransactionInfo
 from .serializers import TransactionSerializer, TransactionCheckSerializer
 
@@ -11,6 +10,7 @@ class TransactionViewSet(mixins.CreateModelMixin,
 
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class TransactionCheckViewSet(mixins.CreateModelMixin,
@@ -19,3 +19,4 @@ class TransactionCheckViewSet(mixins.CreateModelMixin,
 
     queryset = TransactionInfo.objects.all()
     serializer_class = TransactionCheckSerializer
+    permission_classes = [IsAuthenticated]

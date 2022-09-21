@@ -1,15 +1,15 @@
-# django rest api
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-# django modules
+from rest_framework.permissions import IsAuthenticated
 from django.db.models import F
-# local modules
 from .models import Asset
 from .serializers import AssetSerializer
 
 
 class AssetViewSet(viewsets.ReadOnlyModelViewSet):
     """ 보유 종목 조회 Viewset """
+    permission_classes = [IsAuthenticated]
+
     def get_queryset(self):
         account = self.request.user.account.all()[0].id
         assets = Asset.objects.filter(account=account).annotate(

@@ -1,9 +1,6 @@
-# django rest api
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-# django modules
 from django.db.models import Sum, F
-# local modules
 from .models import Account
 from .serializers import AccountSerializer, AccountDetailSerializer
 
