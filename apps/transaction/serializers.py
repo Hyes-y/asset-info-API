@@ -40,14 +40,11 @@ class TransactionSerializer(serializers.ModelSerializer):
         user_name = str(tr.user.name)
         amount = str(int(tr.amount))
         tr_string = account_number + user_name + amount
-        try:
-            is_valid = bcrypt.checkpw(tr_string.encode('utf-8'), signature.encode('utf-8'))
-        except:
-            is_valid = False
+        is_valid = False
+        if bcrypt.checkpw(tr_string.encode('utf-8'), signature.encode('utf-8')):
+            is_valid = True
 
-        try:
-            TransactionInfo.objects.get(tr_info=tr)
-        except:
+        if Transaction.objects.filter(tr_info=tr).first():
             is_valid = False
 
         if not is_valid:
@@ -81,7 +78,7 @@ class TransactionCheckSerializer(serializers.ModelSerializer):
         fields = ('id', 'account_number', 'user_name', 'transfer_amount')
 
     def to_representation(self, instance):
-        res = {'transfer_identification': instance.id}
+        res = {'transfer_identifier': instance.id}
         return res
 
     def validate(self, data):
