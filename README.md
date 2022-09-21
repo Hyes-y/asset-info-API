@@ -144,7 +144,7 @@ Django Rest Framework 를 이용한 REST API 서버로
 
 
 ## ERD
-ERD 
+![image](https://user-images.githubusercontent.com/55697800/191539641-98364c64-ed83-4c53-84a9-bb172d1bef05.png)
 
 
 <br>
