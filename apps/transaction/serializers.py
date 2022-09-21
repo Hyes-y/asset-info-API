@@ -6,7 +6,7 @@ import bcrypt
 
 
 class TransactionSerializer(serializers.ModelSerializer):
-    """ 투자 정보 조회 시리얼라이저 """
+    """ 거래 내역 생성 (phase 2) 시리얼라이저 """
     signature = serializers.CharField(max_length=100, write_only=True)
     transfer_identifier = serializers.CharField(max_length=100, write_only=True)
 
@@ -20,6 +20,11 @@ class TransactionSerializer(serializers.ModelSerializer):
         return res
 
     def validate(self, data):
+        """
+        데이터 유효성 검증
+        - 데이터 존재 여부 확인
+        - 요청 데이터와 기존에 저장된 거래내역 정보(해싱)가 일치하는지 확인
+        """
         signature = data.get('signature', None)
         identifier = data.get('transfer_identifier', None)
 
@@ -35,14 +40,11 @@ class TransactionSerializer(serializers.ModelSerializer):
         user_name = str(tr.user.name)
         amount = str(int(tr.amount))
         tr_string = account_number + user_name + amount
-        try:
-            is_valid = bcrypt.checkpw(tr_string.encode('utf-8'), signature.encode('utf-8'))
-        except:
-            is_valid = False
+        is_valid = False
+        if bcrypt.checkpw(tr_string.encode('utf-8'), signature.encode('utf-8')):
+            is_valid = True
 
-        try:
-            TransactionInfo.objects.get(tr_info=tr)
-        except:
+        if Transaction.objects.filter(tr_info=tr).first():
             is_valid = False
 
         if not is_valid:
@@ -66,6 +68,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
 
 class TransactionCheckSerializer(serializers.ModelSerializer):
+    """ 거래 내역 유효성 검증 (phase 1) 시리얼라이저 """
     account_number = serializers.CharField(max_length=20, write_only=True)
     user_name = serializers.CharField(max_length=30, write_only=True)
     transfer_amount = serializers.DecimalField(max_digits=20, decimal_places=2, write_only=True)
@@ -75,20 +78,23 @@ class TransactionCheckSerializer(serializers.ModelSerializer):
         fields = ('id', 'account_number', 'user_name', 'transfer_amount')
 
     def to_representation(self, instance):
-        res = {'transfer_identification': instance.id}
+        res = {'transfer_identifier': instance.id}
         return res
 
     def validate(self, data):
+        """
+        거래 내역 유효성 검증
+        - 계좌 존재 여부
+        - 계좌 소유주명과 거래내역 고객명이 일치하는지
+        """
         error_message = 'ERROR: 올바르지 않은 입력 정보입니다.'
         account_number = data.get('account_number', None)
         user_name = data.get('user_name', None)
-        transfer_amount = data.get('transfer_amount', None)
 
         account = Account.objects.filter(number=account_number)[0]
 
         if not (account and
-                account.user.name == user_name and
-                account.principal >= transfer_amount):
+                account.user.name == user_name):
             raise serializers.ValidationError(error_message)
 
         return data
