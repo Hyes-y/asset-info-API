@@ -151,7 +151,7 @@ ERD
 
 
 ## API 목록
-API 명세 주소
+[Postman API Docs](https://documenter.getpostman.com/view/19274775/2s7Z7YKuiX)
 
 <br>
 
