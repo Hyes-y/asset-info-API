@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from django.db.models import F
 # local modules
 from .models import Asset
-from apps.account.models import Account
 from .serializers import AssetSerializer
 
 
@@ -13,7 +12,6 @@ class AssetViewSet(viewsets.ReadOnlyModelViewSet):
     """ 보유 종목 조회 Viewset """
     def get_queryset(self):
         account = self.request.user.account.all()[0].id
-        print(account)
         assets = Asset.objects.filter(account=account).annotate(
             total=F('price') * F('count')
         )
