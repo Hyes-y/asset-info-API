@@ -4,5 +4,5 @@ urlpatterns = [
     path('users/', include('apps.user.urls')),
     path('accounts/', include('apps.account.urls')),
     path('assets/', include('apps.asset.urls')),
-    path('transaction/', include('apps.transaction.urls')),
+    path('transactions/', include('apps.transaction.urls')),
 ]
